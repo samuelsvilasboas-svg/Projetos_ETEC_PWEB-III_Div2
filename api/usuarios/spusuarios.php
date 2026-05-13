@@ -4,7 +4,8 @@ $pdo = Conexao::conectar();
 $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 $json = filter_input(INPUT_GET,'jsn');
 $data = json_decode($json,true);
-$nome = '%'.$data['nome'].'%';
+//$nome = '%'.$data['nome'].'%';
+$nome = $data['nome']
 $sql = "
 select 
     usuid as id,
@@ -14,9 +15,10 @@ select
 from 
     usuarios
 where 
-    usunome like ?;
+    usunome like '%'$nome'%';
 ";
 $prp = $pdo->prepare($sql);
+//$prp->execute([$nome]);
 $prp->execute([$nome]);
 $data = $prp->fetchall(PDO::FETCH_ASSOC);
 echo json_encode($data);

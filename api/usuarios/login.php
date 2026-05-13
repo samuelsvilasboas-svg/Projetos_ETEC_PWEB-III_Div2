@@ -15,11 +15,13 @@ select
 from 
     usuarios
 where 
-   usulogin = ? 
+   usulogin = $usuario
+
 and 
-    ususenha = MD5(?);";
+    ususenha = MD5($senha);";
 $prp = $pdo->prepare($sql);
-$prp->execute([$usuario,$senha]);
+$prp->execute();
+//$prp->execute([$usuario,$senha]);
 $data = $prp->fetchall(PDO::FETCH_ASSOC);
 echo json_encode($data);
 //http://localhost/Projetos_ETEC_PWEB-III_Div2/api/login.php?jsn={"usuario":"XANDAO","senha":"123456"}
